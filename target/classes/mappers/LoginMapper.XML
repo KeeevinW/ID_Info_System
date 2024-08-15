@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.Login_System.mappers.LoginMapper">
+
+    <insert id="RegisterNewUser">
+        INSERT INTO ID_Sys.Login_Info
+        VALUES (#{username}, #{password}, 0);
+    </insert>
+
+    <select id="getPassword">
+        SELECT Login_Info.Password
+        FROM ID_Sys.Login_Info
+        WHERE Username=#{username};
+    </select>
+
+    <select id="isAdmin">
+        SELECT Login_Info.Is_Admin
+        FROM Login_Info
+        WHERE Username=#{username}
+    </select>
+
+</mapper>

@@ -22,9 +22,9 @@ public class loginService {
         this.secretKey = secretKey;
     }
 
-    public String registerNewUser(String name, String ID){
-        ID = encrypt(ID);
-        loginMapper.RegisterNewUser(name,ID);
+    public String registerNewUser(String username, String password){
+        password = encrypt(password);
+        loginMapper.RegisterNewUser(username,password); //TODO: when the username already exists
         return "Register Successfully";
     }
 
