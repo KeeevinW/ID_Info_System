@@ -5,10 +5,7 @@ import com.example.Login_System.services.loginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api")
 @RestController
@@ -25,8 +22,11 @@ public class apiController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @RequestMapping("/login")
-    public ResponseEntity<String> LoginToAccount(String username, String password){
+    @PostMapping("/login")
+    public ResponseEntity<String> LoginToAccount(@RequestBody user user){
+
+        String password = user.getPassword();
+        String username = user.getUsername();
 
         if(loginService.LoginToAccount(username, password)){ // username and password are correct
             if(loginService.isAdmin(username)){ //check if the user is an admin

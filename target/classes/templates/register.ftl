@@ -37,23 +37,20 @@
                         username: $("#username").val(),
                         password: ini_p
                     };
-
-                    console.log(formData);
-
                     $.ajax({
                         url: "/api/newuser",
                         type: "POST",
                         contentType: "application/json",
                         data: JSON.stringify(formData),
                         success: function(response){
-                            console.log(response);
                             document.getElementById("username").value = "";
                             document.getElementById("password").value = "";
                             document.getElementById("c_password").value = "";
                             if(response === "Register Successfully"){
                                 alert("User registered successfully!");
+                            }else if(response === "Failed to register: duplicate username"){
+                                alert(response);
                             }
-
                         }
                     });
                 }

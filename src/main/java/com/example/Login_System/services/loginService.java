@@ -2,6 +2,7 @@ package com.example.Login_System.services;
 
 import com.example.Login_System.mappers.LoginMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Cipher;
@@ -24,13 +25,21 @@ public class loginService {
 
     public String registerNewUser(String username, String password){
         password = encrypt(password);
-        loginMapper.RegisterNewUser(username,password); //TODO: when the username already exists
+        try {
+            loginMapper.RegisterNewUser(username, password); //TODO: when the username already exists
+        }catch (DuplicateKeyException e){
+            return "Failed to register: duplicate username";
+        }
         return "Register Successfully";
     }
 
     public Boolean LoginToAccount(String username, String password){
-        String correct_password = loginMapper.getPassword(username); //TODO: when the user does not exist
-        correct_password = decrypt(correct_password);
+        String correct_password = loginMapper.getPassword(username);
+        try {
+            correct_password = decrypt(correct_password);
+        }catch (NullPointerException e){
+            return false;
+        }
         return password.equals(correct_password);
     }
 

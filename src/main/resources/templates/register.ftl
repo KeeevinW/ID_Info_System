@@ -48,6 +48,8 @@
                             document.getElementById("c_password").value = "";
                             if(response === "Register Successfully"){
                                 alert("User registered successfully!");
+                            }else if(response === "Failed to register: duplicate username"){
+                                alert(response);
                             }
                         }
                     });
