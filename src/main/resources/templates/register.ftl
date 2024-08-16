@@ -27,7 +27,7 @@
             $("#newuser_info").on("submit", function(event){
                 event.preventDefault();
 
-
+                let u_name = $("#username").val();
                 let ini_p = $("#password").val();
                 let check_p = $("#c_password").val();
                 if(ini_p !== check_p){
@@ -47,10 +47,14 @@
                             document.getElementById("password").value = "";
                             document.getElementById("c_password").value = "";
                             if(response === "Register Successfully"){
-                                alert("User registered successfully!");
+                                alert("User registered successfully!\nYour username: "+u_name+"\nYour Password: "+ini_p);
                             }else if(response === "Failed to register: duplicate username"){
                                 alert(response);
                             }
+                            window.location.href='/';
+                        },
+                        error: function(xhr, status, error){
+                            alert("An error occurred: " + error);
                         }
                     });
                 }

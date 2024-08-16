@@ -6,19 +6,26 @@
 
     <insert id="RegisterNewUser">
         INSERT INTO ID_Sys.Login_Info
-        VALUES (#{username}, #{password}, 0);
+        VALUES (#{phoneNum}, #{username}, #{password}, 0);
     </insert>
 
     <select id="getPassword">
         SELECT Login_Info.Password
         FROM ID_Sys.Login_Info
-        WHERE Username=#{username};
+        WHERE Username=#{username} OR PhoneNumber=#{username};
+    </select>
+
+<!--    To get username by phone number-->
+    <select id="getUsername">
+        SELECT Login_Info.Username
+        FROM Login_Info
+        WHERE Username=#{str} OR PhoneNumber=#{str};
     </select>
 
     <select id="isAdmin">
         SELECT Login_Info.Is_Admin
         FROM Login_Info
-        WHERE Username=#{username}
+        WHERE Username=#{username} OR PhoneNumber=#{username}
     </select>
 
 </mapper>

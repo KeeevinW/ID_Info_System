@@ -18,15 +18,17 @@ public class apiController {
     public ResponseEntity<String> registerNewUser(@RequestBody user user) {
         String password = user.getPassword();
         String username = user.getUsername();
-        String result = loginService.registerNewUser(username, password);
+        String phoneNum = user.getPhoneNum();
+        String result = loginService.registerNewUser(phoneNum, username, password);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
 
     @PostMapping("/login")
     public ResponseEntity<String> LoginToAccount(@RequestBody user user){
 
         String password = user.getPassword();
-        String username = user.getUsername();
+        String username = user.getUsername(); //not necessarily the username, could be the phone number
 
         if(loginService.LoginToAccount(username, password)){ // username and password are correct
             if(loginService.isAdmin(username)){ //check if the user is an admin
@@ -40,6 +42,10 @@ public class apiController {
 
     }
 
+    @GetMapping("/getname")
+    public ResponseEntity<String> getName(@RequestParam String name){
+        return new ResponseEntity<>(loginService.getUsername(name), HttpStatus.OK);
+    }
 
 
 }

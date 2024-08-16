@@ -6,17 +6,17 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body style="text-align:center">
-    <h1>LOG IN</h1>
+    <h1 style="margin-top: 15%">LOG IN</h1>
     <br><br>
 
-    <#if error??>
+    <#if logoutSuccess?? && logoutSuccess>
         <script>
-            alert(${error});
+            alert("You have successfully logged out.");
         </script>
     </#if>
 
     <form action="/login" method="post" id="loginForm">
-        <label for="username">Username: </label>
+        <label for="username">Username or Phone Number: </label>
         <input name="username" id="username" required>
         <br><br>
         <label for="password">Password: </label>

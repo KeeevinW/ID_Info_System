@@ -23,10 +23,10 @@ public class loginService {
         this.secretKey = secretKey;
     }
 
-    public String registerNewUser(String username, String password){
+    public String registerNewUser(String phoneNum, String username, String password){
         password = encrypt(password);
         try {
-            loginMapper.RegisterNewUser(username, password); //TODO: when the username already exists
+            loginMapper.RegisterNewUser(phoneNum, username, password);
         }catch (DuplicateKeyException e){
             return "Failed to register: duplicate username";
         }
@@ -37,7 +37,7 @@ public class loginService {
         String correct_password = loginMapper.getPassword(username);
         try {
             correct_password = decrypt(correct_password);
-        }catch (NullPointerException e){
+        }catch (NullPointerException e){ //when no such user
             return false;
         }
         return password.equals(correct_password);
@@ -45,6 +45,10 @@ public class loginService {
 
     public Boolean isAdmin(String username){
         return loginMapper.isAdmin(username);
+    }
+
+    public String getUsername(String usernameOrPhoneNum){
+        return loginMapper.getUsername(usernameOrPhoneNum);
     }
 
 
