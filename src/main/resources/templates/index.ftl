@@ -42,9 +42,9 @@
                     data: JSON.stringify(formData),
                     success: function(response){
                         if(response === "log in to normal account"){
-                            window.location.href = '/mainPage?username=' + encodeURIComponent(formData.username);
+                            window.location.href = '/normalLogin?username=' + encodeURIComponent(formData.username);
                         }else if(response === "log in to admin account"){
-                            window.location.href = '/adminPage?username=' + encodeURIComponent(formData.username);
+                            window.location.href = '/adminLogin?username=' + encodeURIComponent(formData.username);
                         }
                     },
                     error: function(xhr, status, error) {
