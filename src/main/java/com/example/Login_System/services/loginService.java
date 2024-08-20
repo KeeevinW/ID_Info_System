@@ -9,6 +9,7 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.Map;
 
 @Service
 public class loginService {
@@ -58,6 +59,11 @@ public class loginService {
 
     public String getUsername(String usernameOrPhoneNum){
         return loginMapper.getUsername(usernameOrPhoneNum);
+    }
+
+    public Map<String, String> getInfoByName(String username){
+        String apiUrl = "http://localhost:8080/api/getInfo/"+username;
+        return apiService.getInfoByName(apiUrl);
     }
 
 

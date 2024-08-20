@@ -2,6 +2,7 @@ package com.example.Login_System.controllers;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -32,10 +33,10 @@ public class viewController {
     }
 
     private void getRealName(@RequestParam String username, HttpSession session) {
-        String apiUrl = "http://localhost:8080/api/getname?name=" + username;
+        String apiUrl = "http://localhost:8081/api/getname/" + username;
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
-        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(headers);
+        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
         HttpEntity<String> response = restTemplate.exchange(apiUrl, HttpMethod.GET, requestEntity, String.class);
         String result = response.getBody();
         session.setAttribute("username", result);
@@ -60,7 +61,16 @@ public class viewController {
             // Redirect to the login page if the User is not authenticated
             return "redirect:/";
         }
+
+        String apiUrl = "http://localhost:8081/api/getInfo/";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(headers);
+        HttpEntity<Map<String, String>> response = restTemplate.exchange(apiUrl + username, HttpMethod.GET, requestEntity, new ParameterizedTypeReference<Map<String, String>>() {});
+
         model.addAttribute("username", username);
+        model.addAttribute("response", response.getBody());
         return "mainPage";
     }
 

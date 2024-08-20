@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RequestMapping("/api")
 @RestController
 public class apiController {
@@ -45,9 +47,14 @@ public class apiController {
 
     }
 
-    @GetMapping("/getname")
-    public ResponseEntity<String> getName(@RequestParam String name){
+    @GetMapping("/getname/{name}")
+    public ResponseEntity<String> getName(@PathVariable String name){
         return new ResponseEntity<>(loginService.getUsername(name), HttpStatus.OK);
+    }
+
+    @GetMapping("/getInfo/{username}")
+    public ResponseEntity<Map<String, String>> getInfoByName(@PathVariable String username){
+        return new ResponseEntity<>(loginService.getInfoByName(username), HttpStatus.OK);
     }
 
 
