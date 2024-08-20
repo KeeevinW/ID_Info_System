@@ -49,7 +49,7 @@
                     },
                     error: function(xhr, status, error) {
                         if (xhr.status === 401) { // Unauthorized
-                            // Handle the unauthorized case (e.g., show an error message to the user)
+                            // Handle the unauthorized case (e.g., show an error message to the User)
                             alert("Invalid username or password. Please try again.");
                         } else {
                             // Handle other potential errors (e.g., show a general error message)

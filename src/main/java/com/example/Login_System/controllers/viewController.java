@@ -57,7 +57,7 @@ public class viewController {
     public String mainPage(HttpSession session, Model model){
         String username = (String) session.getAttribute("username");
         if (username == null || username.isEmpty()) {
-            // Redirect to the login page if the user is not authenticated
+            // Redirect to the login page if the User is not authenticated
             return "redirect:/";
         }
         model.addAttribute("username", username);
@@ -68,7 +68,7 @@ public class viewController {
     public String adminPage(HttpSession session, Model model){
         String username = (String) session.getAttribute("username");
         if (username == null || username.isEmpty()) {
-            // Redirect to the login page if the user is not authenticated
+            // Redirect to the login page if the User is not authenticated
             return "redirect:/";
         }
         model.addAttribute("username", username);

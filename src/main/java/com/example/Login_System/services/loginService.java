@@ -19,16 +19,25 @@ public class loginService {
     private LoginMapper loginMapper;
 
     @Autowired
+    private apiService apiService;
+
+    @Autowired
     public loginService(SecretKey secretKey) {
         this.secretKey = secretKey;
     }
 
-    public String registerNewUser(String phoneNum, String username, String password){
+
+    public String registerNewUser(String phoneNum, String username, String password, String ID){
         password = encrypt(password);
         try {
+            String apiUrl = "http://localhost:8080/api/addNew/"+username+"/"+ID;
+            String result = apiService.addNewUser(apiUrl);
+            if(!result.equals("success")){
+                return "failed to register the User";
+            }
             loginMapper.RegisterNewUser(phoneNum, username, password);
         }catch (DuplicateKeyException e){
-            return "Failed to register: duplicate username";
+            return "Failed to register: the User already exists";
         }
         return "Register Successfully";
     }
@@ -37,7 +46,7 @@ public class loginService {
         String correct_password = loginMapper.getPassword(username);
         try {
             correct_password = decrypt(correct_password);
-        }catch (NullPointerException e){ //when no such user
+        }catch (NullPointerException e){ //when no such User
             return false;
         }
         return password.equals(correct_password);
