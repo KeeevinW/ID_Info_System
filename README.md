@@ -1,7 +1,11 @@
 # ID_Info_System
 
 ## Description
-This website was developed during my internship at ICBC, Guangxi, under the mentorship of Mr. Wu. It serves as a practical exercise in building web applications using Java Spring Boot framework, combined with other technologies such as MyBatis and FreeMarker Java Template Engine. On this website, after registering with a username, a password, a valid China Resident Identity Card Number, and a phone number, users can log in with a phone number/username, and the corresponding password. The main page will display the information extracted from the users' China Resident Identity Card Number, including address and birthday. If logged in as an admin, the user can view the information of all users, and make changes.
+This website was developed during my internship at ICBC Guangxi, under the guidance of Mr. Wu. It serves as a hands-on project, demonstrating the practical application of web development using the Java Spring Boot framework, along with other key technologies like MyBatis and the FreeMarker template engine.
+
+Users can register with a username, password, valid Chinese Resident Identity Card Number, and phone number. After registration, users can log in using either their phone number or username along with their password. The main page displays information derived from the user's Chinese Resident Identity Card Number, such as their address and date of birth.
+
+For admin users, the site offers additional functionality, allowing them to view and manage the information of all registered users.
 
 ### Technologies Included
 
