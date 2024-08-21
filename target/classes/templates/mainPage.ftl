@@ -5,7 +5,8 @@
     <title></title>
 </head>
 <body style="text-align: center">
-    <h1>Welcome, ${username}!</h1>
+
+    <h1 style="margin-top: 10%">Welcome, ${username}!</h1>
     <br><br>
     <h2>Your birthday is: ${response.User_Birthday}</h2>
     <br><br>

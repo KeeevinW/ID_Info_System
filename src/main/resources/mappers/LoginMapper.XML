@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.Login_System.mappers.LoginMapper">
+<mapper namespace="com.example.ID_Info_System.mappers.LoginMapper">
 
     <insert id="RegisterNewUser">
         INSERT INTO ID_Sys.Login_Info
@@ -12,20 +12,31 @@
     <select id="getPassword">
         SELECT Login_Info.Password
         FROM ID_Sys.Login_Info
-        WHERE Username=#{username} OR PhoneNumber=#{username};
+        WHERE username=#{username} OR phoneNum=#{username};
     </select>
 
 <!--    To get username by phone number-->
     <select id="getUsername">
         SELECT Login_Info.Username
         FROM Login_Info
-        WHERE Username=#{str} OR PhoneNumber=#{str};
+        WHERE username=#{str} OR phoneNum=#{str};
     </select>
 
     <select id="isAdmin">
-        SELECT Login_Info.Is_Admin
+        SELECT Login_Info.IsAdmin
         FROM Login_Info
-        WHERE Username=#{username} OR PhoneNumber=#{username}
+        WHERE username=#{username} OR phoneNum=#{username};
+    </select>
+
+    <update id="makeAdmin">
+        UPDATE Login_Info
+        SET isAdmin=true
+        WHERE username=#{username};
+    </update>
+
+    <select id="getAll" resultType="com.example.ID_Info_System.model.User">
+        SELECT *
+        FROM Login_Info
     </select>
 
 </mapper>

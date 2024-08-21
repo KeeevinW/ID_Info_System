@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>Login_System</artifactId>
+	<artifactId>ID_Info_System</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Login_System</name>
 	<description>A login system serves as a practical exercise during my ICBC internship</description>

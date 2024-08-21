@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: Login_System
+    name: ID_Info_System
   datasource:
     url: jdbc:mysql://localhost:3306/ID_Sys
     username: ${DB_USERNAME}
