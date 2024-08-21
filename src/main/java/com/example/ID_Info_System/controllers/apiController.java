@@ -1,6 +1,7 @@
 package com.example.ID_Info_System.controllers;
 
 import com.example.ID_Info_System.model.User;
+import com.example.ID_Info_System.model.User_Info;
 import com.example.ID_Info_System.services.loginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -67,5 +68,10 @@ public class apiController {
     @GetMapping("/getAll")
     public ResponseEntity<ArrayList<User>> getAll(){
         return new ResponseEntity<>(loginService.getAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/getAllInfo")
+    public ResponseEntity<ArrayList<User_Info>> getAllInfo(){
+        return new ResponseEntity<>(loginService.getAllInfo(), HttpStatus.OK);
     }
 }

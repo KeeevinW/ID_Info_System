@@ -1,6 +1,7 @@
 package com.example.ID_Info_System.controllers;
 
 import com.example.ID_Info_System.model.User;
+import com.example.ID_Info_System.model.User_Info;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -76,6 +77,7 @@ public class viewController {
         return "mainPage";
     }
 
+
     @RequestMapping("/adminPage")
     public String adminPage(HttpSession session, Model model){
         String adminName = (String) session.getAttribute("username");
@@ -91,9 +93,18 @@ public class viewController {
         HttpEntity<ArrayList<User>> response = restTemplate.exchange(apiUrl, HttpMethod.GET, requestEntity, new ParameterizedTypeReference<ArrayList<User>>() {});
         model.addAttribute("Users", response.getBody());
 
+        //get address and other information of the users
+        apiUrl = "http://localhost:8081/api/getAllInfo";
+        headers = new HttpHeaders();
+        HttpEntity<ArrayList<User_Info>> requestEntityForInfo = new HttpEntity<>(headers);
+        HttpEntity<ArrayList<User_Info>> responseForInfo = restTemplate.exchange(apiUrl, HttpMethod.GET, requestEntityForInfo, new ParameterizedTypeReference<ArrayList<User_Info>>() {});
+
+        model.addAttribute("userInfo", responseForInfo.getBody());
+
         model.addAttribute("adminName", adminName);
         return "adminPage";
     }
+
 
     @RequestMapping("/logout")
     public String logout(HttpSession session, RedirectAttributes redirectAttributes) {

@@ -2,6 +2,7 @@ package com.example.ID_Info_System.services;
 
 import com.example.ID_Info_System.mappers.LoginMapper;
 import com.example.ID_Info_System.model.User;
+import com.example.ID_Info_System.model.User_Info;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -72,7 +73,7 @@ public class loginService {
         loginMapper.makeAdmin(username);
     }
 
-    public ArrayList<User> getAll(){
+    public ArrayList<User> getAll(){ //get all login info (username, password, phone number...)
         ArrayList<User> response = loginMapper.getAll();
         for(User user : response){
             user.setPassword(decrypt(user.getPassword()));
@@ -80,6 +81,11 @@ public class loginService {
         return response;
     }
 
+    public ArrayList<User_Info> getAllInfo() {//get all user info (ID number, address, date of birth...)
+        String apiUrl = "http://localhost:8080/api/getAllInfo";
+        return apiService.getAllInfo(apiUrl);
+
+    }
     //Encrypt the text (id)
     public String encrypt(String secretMessage){
         try{
