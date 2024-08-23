@@ -20,7 +20,7 @@ public interface LoginMapper {
 
     ArrayList<User> getAll();
 
-    void setPassword(String username, String password);
+    void setPassword(String phoneNum, String password);
 
     void deleteUser(String phoneNum);
 }

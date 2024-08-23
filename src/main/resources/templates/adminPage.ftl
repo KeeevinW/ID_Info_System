@@ -89,7 +89,11 @@
                         <td><input type="text" value="${Info.user_ID}" class="user_ID"/></td>
                         <td><input type="text" value="${Info.user_Address}" class="user_Address" disabled/></td>
                         <td><input type="text" value="${Info.user_Birthday}" class="user_Birthday" disabled/></td>
-                        <td><button class="deleteButton" onclick="deleteUser(this)">DELETE USER</button></td>
+                        <td>
+                            <button class="deleteButton" onclick="deleteUser(this)">DELETE USER</button>
+                            <br>
+                            <button class="resetPassword" onclick="resetPassword(this)">RESET PASSWORD</button>
+                        </td>
                     </tr>
                     <#break>
                 </#if>
@@ -104,16 +108,24 @@
 
 
             let targetRow = button.closest('tr');
-            let phoneInput = targetRow.querySelector('.phoneNum');
             let username = targetRow.querySelector('.username').value;
-            let newPhoneNum = phoneInput.value;
+            let PhoneNum = targetRow.querySelector('.phoneNum').value;
+            let isAdmin = targetRow.querySelector('.isAdmin').checked;
 
-            let confirmDelete = confirm('Are you sure you want to delete the user with username '+ username + ' and phone number '+newPhoneNum+'?');
+
+            if(username === "${adminName}"){
+                alert("You can't delete yourself!")
+                return;
+            }else if(isAdmin){
+                alert("You can't delete another admin!");
+            }
+
+            let confirmDelete = confirm('Are you sure you want to delete the user with username '+ username + ' and phone number '+PhoneNum+'?');
 
             if(confirmDelete){
 
                 $.ajax({
-                    url: "/api/deleteUser?phoneNum="+encodeURIComponent(newPhoneNum),
+                    url: "/api/deleteUser?phoneNum="+encodeURIComponent(PhoneNum),
                     type: "DELETE",
                     contentType: "application/json",
                     success: function (response) {
@@ -126,6 +138,29 @@
                 })
             }
 
+        }
+
+        function resetPassword(button){
+            let targetRow = button.closest("tr");
+            let phoneNum = targetRow.querySelector(".phoneNum").value;
+            let username = targetRow.querySelector(".username").value;
+
+            let confirmReset = confirm("Are you sure to reset the password of the user with username " + username +" and phone number " + phoneNum + " ?");
+
+            if(confirmReset){
+                $.ajax({
+                    url: "api/resetPassword?phoneNum="+encodeURIComponent(phoneNum),
+                    type: "PUT",
+                    contentType: "application/json",
+                    success(response){
+                        alert(response);
+                        location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        alert("An error occurred: " + error);
+                    }
+                })
+            }
         }
     </script>
 

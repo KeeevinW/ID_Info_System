@@ -75,8 +75,8 @@ public class apiController {
     }
 
     @PutMapping("/resetPassword")
-    public ResponseEntity<String> resetPassword(@RequestBody String username){
-        loginService.resetPassword(username);
+    public ResponseEntity<String> resetPassword(@RequestParam String phoneNum){
+        loginService.resetPassword(phoneNum);
         return new ResponseEntity<>("password reset", HttpStatus.OK);
     }
 

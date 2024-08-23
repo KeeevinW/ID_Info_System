@@ -87,9 +87,9 @@ public class loginService {
 
     }
 
-    public void resetPassword(String username){
+    public void resetPassword(String phoneNum){
         String password = encrypt("12345678");
-        loginMapper.setPassword(username, password);
+        loginMapper.setPassword(phoneNum, password);
     }
 
     public void setPassword(String username, String password){

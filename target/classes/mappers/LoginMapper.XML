@@ -42,7 +42,7 @@
     <update id="setPassword">
         UPDATE Login_Info
         SET password=#{password}
-        WHERE username=#{username}
+        WHERE phoneNum=#{phoneNum}
     </update>
     
     <delete id="deleteUser">
