@@ -34,7 +34,7 @@ public class loginService {
     public String registerNewUser(String phoneNum, String username, String password, String ID){
         password = encrypt(password);
         try {
-            String apiUrl = "http://localhost:8080/api/addNew/"+username+"/"+ID;
+            String apiUrl = "http://localhost:8080/api/addNew/"+username+"/"+ID+"/"+phoneNum;
             String result = apiService.addNewUser(apiUrl);
             if(!result.equals("success")){
                 return "failed to register the User";
@@ -86,6 +86,28 @@ public class loginService {
         return apiService.getAllInfo(apiUrl);
 
     }
+
+    public void resetPassword(String username){
+        String password = encrypt("12345678");
+        loginMapper.setPassword(username, password);
+    }
+
+    public void setPassword(String username, String password){
+        password = encrypt(password);
+        loginMapper.setPassword(username, password);
+    }
+
+    public String deleteUser(String phoneNum){
+        String apiUrl = "http://localhost:8080/api/deleteUser/"+phoneNum;
+        String result = apiService.deleteUser(apiUrl);
+        if(!result.equals("User deleted")){
+            return "failed to delete User";
+        }else{
+            loginMapper.deleteUser(phoneNum);
+        }
+        return result;
+    }
+
     //Encrypt the text (id)
     public String encrypt(String secretMessage){
         try{
@@ -113,5 +135,6 @@ public class loginService {
             throw new RuntimeException("Error decrypting data", e);
         }
     }
+
 
 }

@@ -20,7 +20,6 @@ public class apiController {
 
     @PostMapping("/newuser")
     public ResponseEntity<String> registerNewUser(@RequestBody User user) {
-
         String password = user.getPassword();
         String username = user.getUsername();
         String phoneNum = user.getPhoneNum();
@@ -73,5 +72,23 @@ public class apiController {
     @GetMapping("/getAllInfo")
     public ResponseEntity<ArrayList<User_Info>> getAllInfo(){
         return new ResponseEntity<>(loginService.getAllInfo(), HttpStatus.OK);
+    }
+
+    @PutMapping("/resetPassword")
+    public ResponseEntity<String> resetPassword(@RequestBody String username){
+        loginService.resetPassword(username);
+        return new ResponseEntity<>("password reset", HttpStatus.OK);
+    }
+
+    @PutMapping("/setPassword")
+    public ResponseEntity<String> setPassword(@RequestParam String username, @RequestParam String password){
+        loginService.setPassword(username, password);
+        return new ResponseEntity<>("password set", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteUser")
+    public ResponseEntity<String> deleteUser(@RequestParam String phoneNum){
+        loginService.deleteUser(phoneNum);
+        return new ResponseEntity<>("User deleted", HttpStatus.OK);
     }
 }

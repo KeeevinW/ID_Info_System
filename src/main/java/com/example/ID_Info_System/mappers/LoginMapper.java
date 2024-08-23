@@ -19,4 +19,8 @@ public interface LoginMapper {
     void makeAdmin(String username);
 
     ArrayList<User> getAll();
+
+    void setPassword(String username, String password);
+
+    void deleteUser(String phoneNum);
 }

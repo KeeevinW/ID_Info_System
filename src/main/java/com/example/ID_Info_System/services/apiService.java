@@ -77,4 +77,24 @@ public class apiService {
             throw new RuntimeException("Request failed", e);
         }
     }
+
+    public String deleteUser(String apiUrl){
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(apiUrl))
+                .DELETE()
+                .build();
+        try{
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                String responseBody = response.body();
+                return responseBody;
+            } else {
+                return "Error: " + response.statusCode();
+            }
+        } catch (IOException | InterruptedException e) {
+            return e.getMessage();
+        }
+    }
 }

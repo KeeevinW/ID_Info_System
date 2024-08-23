@@ -38,12 +38,6 @@
         <label for="username">Please enter your username: </label>
         <input name="username" id="username" required maxlength="10">
         <br><br>
-        <label for="password">Please enter your password: </label>
-        <input name="password" id="password" type="password" required maxlength="20">
-        <br><br>
-        <label for="c_password">Please enter your password again: </label>
-        <input name="c_password" id="c_password" type="password" required maxlength="20">
-        <br><br>
         <label for="id">Please enter your ID: </label>
         <input name="id" id="id" type="text" required maxlength="18">
         <br><br>
@@ -81,8 +75,6 @@
                 }
 
                 let u_name = $("#username").val();
-                let ini_p = $("#password").val();
-                let check_p = $("#c_password").val();
                 let id = $("#id").val();
                 let phoneNum = $("#phoneNum").val();
 
@@ -90,14 +82,13 @@
                     alert("Please enter a valid Chinese id")
                 }else if(phoneNum.length !== 11){
                     alert("Please enter the correct phone number");
-                }else if (ini_p !== check_p){
-                    alert("Please ensure you input the same password twice");
                 }else{
                     const formData = {
                         username: u_name,
-                        password: ini_p,
+                        password: "12345678",
                         phoneNum: phoneNum,
                         id: id
+
                     };
                     $.ajax({
                         url: "/api/newuser",
@@ -107,13 +98,11 @@
                         success: function(response){
 
                             document.getElementById("username").value = "";
-                            document.getElementById("password").value = "";
-                            document.getElementById("c_password").value = "";
                             document.getElementById("id").value = "";
                             document.getElementById("phoneNum").value= "";
 
                             if(response === "Register Successfully"){
-                                alert("User registered successfully!\nYour username: "+u_name+"\nYour Password: "+ini_p);
+                                alert("User registered successfully!\nYour username: "+u_name+"\nYour Default Password is \"12345678\", remember to change one after your first login");
                                 window.location.href='/';
                             }else{
                                 alert(response);

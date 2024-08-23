@@ -1,6 +1,8 @@
 com/example/ID_Info_System/controllers/viewController$1.class
 com/example/ID_Info_System/services/loginService.class
 com/example/ID_Info_System/mappers/LoginMapper.class
+com/example/ID_Info_System/controllers/viewController$2.class
+com/example/ID_Info_System/controllers/viewController$3.class
 com/example/ID_Info_System/LoginSystemApplication.class
 com/example/ID_Info_System/controllers/apiController.class
 com/example/ID_Info_System/AES/AESKeyConfig.class

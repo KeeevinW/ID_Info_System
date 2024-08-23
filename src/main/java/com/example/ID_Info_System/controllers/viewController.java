@@ -46,7 +46,31 @@ public class viewController {
     }
 
     @GetMapping("/normalLogin")
-    public String handleNormalLogin(@RequestParam String username, HttpSession session) {
+    public String handleNormalLogin(@RequestParam String username, @RequestParam Boolean isAdmin, @RequestParam String password, HttpSession session) {
+        if(isAdmin){
+            session.setAttribute("isAdmin", true);
+        }else {
+            session.setAttribute("isAdmin", false);
+        }
+        if(password.equals("12345678")){
+            session.setAttribute("firstTimeLogin", true);
+        }else {
+            session.setAttribute("firstTimeLogin", false);
+        }
+
+        getRealName(username, session);
+        return "redirect:/mainPage";
+    }
+
+    @GetMapping("/adminToNormal")
+    public String adminLoginToNormal(@RequestParam String username, @RequestParam Boolean isAdmin, HttpSession session) {
+        if(isAdmin){
+            session.setAttribute("isAdmin", true);
+        }else {
+            session.setAttribute("isAdmin", false);
+        }
+        session.setAttribute("firstTimeLogin", false);
+
         getRealName(username, session);
         return "redirect:/mainPage";
     }
@@ -72,6 +96,8 @@ public class viewController {
         HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(headers);
         HttpEntity<Map<String, String>> response = restTemplate.exchange(apiUrl + username, HttpMethod.GET, requestEntity, new ParameterizedTypeReference<Map<String, String>>() {});
 
+        model.addAttribute("firstTimeLogin", session.getAttribute("firstTimeLogin"));
+        model.addAttribute("isAdmin", session.getAttribute("isAdmin"));
         model.addAttribute("username", username);
         model.addAttribute("response", response.getBody());
         return "mainPage";
@@ -113,6 +139,17 @@ public class viewController {
         redirectAttributes.addFlashAttribute("logoutSuccess", true); // Pass the logout success flag
         // Redirect to the login page after logout
         return "redirect:/";
+    }
+
+    @RequestMapping("/setPassword")
+    public String setPassword(Model model, HttpSession session) {
+        String username = (String) session.getAttribute("username");
+        if (username == null || username.isEmpty()) {
+            return "redirect:/";
+        }
+
+        model.addAttribute("username", username);
+        return "setPassword";
     }
 
 }

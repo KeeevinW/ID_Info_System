@@ -47,43 +47,25 @@
             transform: translateY(0); /* Reset lift when clicked */
         }
 
+        .deleteButton {
+            border: none; /* Remove border */
+            background: none; /* Remove background */
+            color: red; /* Set text color to red */
+            padding: 0; /* Remove padding */
+            font-size: 14px; /* Adjust font size */
+            cursor: pointer; /* Make the text look clickable */
+        }
+
+        .deleteButton:hover {
+            text-decoration: underline; /* Optional: underline on hover */
+        }
+
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body style="text-align: center">
     <h1>Welcome, admin ${adminName}!</h1>
     <br><br>
-<#--    <table>-->
-<#--        <tr class="tableHeader">-->
-<#--            <td>Username</td>-->
-<#--            <td>User Phone Number</td>-->
-<#--            <td>User Password</td>-->
-<#--            <td>Is Admin</td>-->
-
-<#--        </tr>-->
-<#--        <#foreach User in Users>-->
-<#--            <tr class="tableBody">-->
-<#--                <td><input type="text" value="${User.username}"/></td>-->
-<#--                <td><input type="text" value="${User.phoneNum}"/></td>-->
-<#--                <td><input type="text" value="${User.password}"/></td>-->
-<#--                <td><input type="checkbox" ${User.isAdmin?string('checked', '')}/></td>-->
-<#--            </tr>-->
-<#--        </#foreach>-->
-<#--    </table>-->
-<#--    <table>-->
-<#--        <tr class="tableHeader">-->
-<#--            <td>ID Number</td>-->
-<#--            <td>Address</td>-->
-<#--            <td>Date of Birth</td>-->
-<#--        </tr>-->
-<#--        <#foreach Info in userInfo>-->
-<#--            <tr class="tableBody">-->
-<#--                <td><input type="text" value="${Info.user_ID}"/></td>-->
-<#--                <td><input type="text" value="${Info.user_Address}"/></td>-->
-<#--                <td><input type="text" value="${Info.user_Birthday}"/></td>-->
-<#--            </tr>-->
-<#--        </#foreach>-->
-<#--    </table>-->
-
 
     <table>
         <tr class="tableHeader">
@@ -94,27 +76,61 @@
             <th>ID Number</th>
             <th>Address</th>
             <th>Date of Birth</th>
+            <th></th>
         </tr>
         <#list Users as User>
             <#list userInfo as Info>
                 <#if User.username == Info.username>
-                    <tr class="tableBody">
-                        <td><input type="text" value="${User.username}"/></td>
-                        <td><input type="text" value="${User.phoneNum}"/></td>
-                        <td><input type="text" value="${User.password}"/></td>
-                        <td><input type="checkbox" ${User.isAdmin?string('checked', '')}/></td>
-                        <td><input type="text" value="${Info.user_ID}"/></td>
-                        <td><input type="text" value="${Info.user_Address}"/></td>
-                        <td><input type="text" value="${Info.user_Birthday}"/></td>
+                    <tr class="tableRow">
+                        <td><input type="text" value="${User.username}" class="username"/></td>
+                        <td><input type="text" value="${User.phoneNum}" class="phoneNum"/></td>
+                        <td><input type="text" value="${User.password}" class="password"/></td>
+                        <td><input type="checkbox" ${User.isAdmin?string('checked', '')} class="isAdmin"/></td>
+                        <td><input type="text" value="${Info.user_ID}" class="user_ID"/></td>
+                        <td><input type="text" value="${Info.user_Address}" class="user_Address" disabled/></td>
+                        <td><input type="text" value="${Info.user_Birthday}" class="user_Birthday" disabled/></td>
+                        <td><button class="deleteButton" onclick="deleteUser(this)">DELETE USER</button></td>
                     </tr>
                     <#break>
                 </#if>
             </#list>
         </#list>
+
+
     </table>
 
+    <script>
+        function deleteUser(button){
+
+
+            let targetRow = button.closest('tr');
+            let phoneInput = targetRow.querySelector('.phoneNum');
+            let username = targetRow.querySelector('.username').value;
+            let newPhoneNum = phoneInput.value;
+
+            let confirmDelete = confirm('Are you sure you want to delete the user with username '+ username + ' and phone number '+newPhoneNum+'?');
+
+            if(confirmDelete){
+
+                $.ajax({
+                    url: "/api/deleteUser?phoneNum="+encodeURIComponent(newPhoneNum),
+                    type: "DELETE",
+                    contentType: "application/json",
+                    success: function (response) {
+                        alert(response);
+                        location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        alert("An error occurred: " + error);
+                    }
+                })
+            }
+
+        }
+    </script>
 
     <br><br>
-    <button class="custom-button" onclick="window.location.href='/logout'">Log Out</button>
+    <button class="custom-button"  style="margin-right: 10%" onclick="window.location.href='/logout'">Log Out</button>
+    <button class="custom-button" onclick="window.location.href = '/adminToNormal?username=${adminName}&isAdmin=true'">Log In As A Normal User</button>
 </body>
 </html>

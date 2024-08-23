@@ -31,6 +31,13 @@
 </head>
 <body style="text-align: center">
 
+    <#if firstTimeLogin>
+        <script>
+            alert("Since this is your first login / you have reset your password to the default one, please reset your password")
+            window.location.href = '/setPassword'
+        </script>
+    </#if>
+
     <h1 style="margin-top: 10%">Welcome, ${username}!</h1>
     <br><br>
     <h2>Your birthday is: ${response.User_Birthday}</h2>
@@ -39,7 +46,11 @@
     <br><br>
     <h2>Your Chinese ID number is: ${response.User_ID}</h2>
     <br><br>
-    <button class="custom-button" onclick="window.location.href='/logout'">Log Out</button>
+    <button class="custom-button" <#if isAdmin>style="margin-right: 10%"</#if> onclick="window.location.href='/logout'">Log Out</button>
+
+    <#if isAdmin>
+        <button class="custom-button" onclick="window.location.href='/adminLogin?username=${username}'">Back To Admin Page</button>
+    </#if>
 
 
 </body>

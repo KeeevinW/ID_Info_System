@@ -34,6 +34,7 @@
     <h1 style="margin-top: 15%">LOG IN</h1>
     <br><br>
 
+
     <#if logoutSuccess?? && logoutSuccess>
         <script>
             alert("You have successfully logged out.");
@@ -67,7 +68,7 @@
                     data: JSON.stringify(formData),
                     success: function(response){
                         if(response === "log in to normal account"){
-                            window.location.href = '/normalLogin?username=' + encodeURIComponent(formData.username);
+                            window.location.href = '/normalLogin?username=' + encodeURIComponent(formData.username) + '&isAdmin=false&password=' + encodeURIComponent(formData.password);
                         }else if(response === "log in to admin account"){
                             window.location.href = '/adminLogin?username=' + encodeURIComponent(formData.username);
                         }

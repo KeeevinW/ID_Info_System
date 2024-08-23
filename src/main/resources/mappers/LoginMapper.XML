@@ -39,5 +39,15 @@
         FROM Login_Info
     </select>
 
+    <update id="setPassword">
+        UPDATE Login_Info
+        SET password=#{password}
+        WHERE username=#{username}
+    </update>
+    
+    <delete id="deleteUser">
+        DELETE FROM Login_Info
+        WHERE phoneNum=#{phoneNum}
+    </delete>
 
 </mapper>
