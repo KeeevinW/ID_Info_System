@@ -35,14 +35,13 @@ public class viewController {
         return "register";
     }
 
-    private void getRealName(@RequestParam String username, HttpSession session) {
+    private String getRealName(@RequestParam String username, HttpSession session) {
         String apiUrl = "http://localhost:8081/api/getname/" + username;
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
         HttpEntity<String> requestEntity = new HttpEntity<>(headers);
         HttpEntity<String> response = restTemplate.exchange(apiUrl, HttpMethod.GET, requestEntity, String.class);
-        String result = response.getBody();
-        session.setAttribute("username", result);
+        return response.getBody();
     }
 
     @GetMapping("/normalLogin")
@@ -58,7 +57,11 @@ public class viewController {
             session.setAttribute("firstTimeLogin", false);
         }
 
-        getRealName(username, session);
+        String newName = getRealName(username, session);
+        if(!newName.equals(username)){ //which means the "username" is a phone number
+            session.setAttribute("phoneNumber", username);
+        }
+        session.setAttribute("username", newName);
         return "redirect:/mainPage";
     }
 
@@ -89,12 +92,22 @@ public class viewController {
             return "redirect:/";
         }
 
+        String phoneNum = (String) session.getAttribute("phoneNumber");
+
+        String nameOrPhoneNum;
+
+        if (phoneNum != null && !phoneNum.isEmpty()) { //the user logged in with phone number since there are others with this name
+            nameOrPhoneNum = phoneNum;
+        }else{
+            nameOrPhoneNum = username;
+        }
+
         String apiUrl = "http://localhost:8081/api/getInfo/";
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
         HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(headers);
-        HttpEntity<Map<String, String>> response = restTemplate.exchange(apiUrl + username, HttpMethod.GET, requestEntity, new ParameterizedTypeReference<Map<String, String>>() {});
+        HttpEntity<Map<String, String>> response = restTemplate.exchange(apiUrl + nameOrPhoneNum, HttpMethod.GET, requestEntity, new ParameterizedTypeReference<Map<String, String>>() {});
 
         model.addAttribute("firstTimeLogin", session.getAttribute("firstTimeLogin"));
         model.addAttribute("isAdmin", session.getAttribute("isAdmin"));

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title></title>
@@ -76,23 +76,25 @@
             <th>ID Number</th>
             <th>Address</th>
             <th>Date of Birth</th>
-            <th></th>
+            <th>Operations</th>
         </tr>
         <#list Users as User>
             <#list userInfo as Info>
                 <#if User.username == Info.username>
                     <tr class="tableRow">
-                        <td><input type="text" value="${User.username}" class="username"/></td>
-                        <td><input type="text" value="${User.phoneNum}" class="phoneNum"/></td>
-                        <td><input type="text" value="${User.password}" class="password"/></td>
+                        <td><input type="text" value="${User.username}" class="username" maxlength="10"/></td>
+                        <td><input type="text" value="${User.phoneNum}" class="phoneNum" maxlength="11"/></td>
+                        <td><input type="text" value="${User.password}" class="password" maxlength="20"/></td>
                         <td><input type="checkbox" ${User.isAdmin?string('checked', '')} class="isAdmin"/></td>
-                        <td><input type="text" value="${Info.user_ID}" class="user_ID"/></td>
+                        <td><input type="text" value="${Info.user_ID}" class="user_ID" maxlength="18"/></td>
                         <td><input type="text" value="${Info.user_Address}" class="user_Address" disabled/></td>
                         <td><input type="text" value="${Info.user_Birthday}" class="user_Birthday" disabled/></td>
                         <td>
                             <button class="deleteButton" onclick="deleteUser(this)">DELETE USER</button>
-                            <br>
+                            <br><br>
                             <button class="resetPassword" onclick="resetPassword(this)">RESET PASSWORD</button>
+                            <br><br>
+                            <button class="updateUser" onclick="updateUser(this)">CONFIRM UPDATE</button>
                         </td>
                     </tr>
                     <#break>
@@ -162,6 +164,60 @@
                 })
             }
         }
+
+        function updateUser(button){
+            let targetRow = button.closest("tr");
+            let username = targetRow.querySelector(".username").value;
+            let phoneNum = targetRow.querySelector(".phoneNum").value;
+            let password = targetRow.querySelector(".password").value;
+            let isAdmin = targetRow.querySelector(".isAdmin").checked;
+            let ID = targetRow.querySelector(".user_ID").value;
+
+            if(!isValidID(ID)){
+                alert("Invalid ID number");
+                return;
+            }
+
+            let confirmChange = confirm("Are you sure to change the informtion of the user with " + username + " and phone number " + phoneNum + "?");
+
+            if(confirmChange){
+                $.ajax({
+                    url: "api/updateUser?username=" + username + "&phoneNum=" + phoneNum + "&password=" + password + "&ID=" + ID + "&isAdmin=" + isAdmin,
+                    type: "PUT",
+                    contentType: "application/json",
+                    success(response){
+                        alert(response);
+                        location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        alert("An error occurred: " + error);
+                    }
+                })
+            }
+
+        }
+
+        function isValidID(id){ //check if the id number is a valid Chinese id Number
+            if(id.length !== 18){
+                return false;
+            }
+            let coefficient = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+            let last_digit = ["1", "0", "X", "9", "8", "7", "6", "5", "4", "3", "2"]
+
+            let sum = 0;
+            for(let x=0; x<id.length-1; x++){
+                sum += parseInt(id[x])*coefficient[x];
+            }
+            let result = sum%11;
+
+            if(result === 10){
+                if(id[17] === "X") return true;
+            }else{
+                return last_digit[result] === id[17];
+            }
+
+        }
+
     </script>
 
     <br><br>

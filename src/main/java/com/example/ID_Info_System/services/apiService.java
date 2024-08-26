@@ -97,4 +97,24 @@ public class apiService {
             return e.getMessage();
         }
     }
+
+    public String updateUser(String apiUrl){
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(apiUrl))
+                .PUT(HttpRequest.BodyPublishers.noBody())
+                .build();
+        try{
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                String responseBody = response.body();
+                return responseBody;
+            } else {
+                return "Error: " + response.statusCode();
+            }
+        } catch (IOException | InterruptedException e) {
+            return e.getMessage();
+        }
+    }
 }

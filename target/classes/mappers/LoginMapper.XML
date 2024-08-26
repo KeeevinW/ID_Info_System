@@ -22,6 +22,12 @@
         WHERE username=#{str} OR phoneNum=#{str};
     </select>
 
+<!--    <select id="getUsernameAndPhoneNum">-->
+<!--        SELECT Login_Info.Username, Login_Info.phoneNum-->
+<!--        FROM Login_Info-->
+<!--        WHERE username=#{username} AND password=#{password};-->
+<!--    </select>-->
+
     <select id="isAdmin">
         SELECT Login_Info.IsAdmin
         FROM Login_Info
@@ -42,12 +48,18 @@
     <update id="setPassword">
         UPDATE Login_Info
         SET password=#{password}
-        WHERE phoneNum=#{phoneNum}
+        WHERE phoneNum=#{nameOrPhone} OR username=#{nameOrPhone}
     </update>
     
     <delete id="deleteUser">
         DELETE FROM Login_Info
         WHERE phoneNum=#{phoneNum}
     </delete>
+
+    <update id="updateUser">
+        UPDATE Login_Info
+        SET username=#{username}, password=#{password}, isAdmin=#{isAdmin}
+        WHERE phoneNum=#{phoneNum}
+    </update>
 
 </mapper>

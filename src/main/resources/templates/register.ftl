@@ -96,12 +96,10 @@
                         contentType: "application/json",
                         data: JSON.stringify(formData),
                         success: function(response){
-
-                            document.getElementById("username").value = "";
-                            document.getElementById("id").value = "";
-                            document.getElementById("phoneNum").value= "";
-
                             if(response === "Register Successfully"){
+                                document.getElementById("username").value = "";
+                                document.getElementById("id").value = "";
+                                document.getElementById("phoneNum").value= "";
                                 alert("User registered successfully!\nYour username: "+u_name+"\nYour Default Password is \"12345678\", remember to change one after your first login");
                                 window.location.href='/';
                             }else{

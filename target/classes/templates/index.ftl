@@ -48,7 +48,7 @@
         <label for="password">Password: </label>
         <input type="password" name="password" id="password" required>
         <br><br><br><br>
-        <input class="custom-button" type="submit" value="Click to log in">
+        <input class="custom-button" id="loginButton" type="submit" value="Click to log in">
     </form>
 
     <script>
@@ -67,6 +67,18 @@
                     contentType: "application/json",
                     data: JSON.stringify(formData),
                     success: function(response){
+
+                        if(response === "There are more than one password"){
+                            let PhoneNumber = prompt("Since there is one or more user have the same username with you, please enter your phone number to help us clarify your identity");
+                            if(PhoneNumber === null || PhoneNumber === ""){
+                                alert("please log in again");
+                                location.reload();
+                            }else{
+                                $("#username").val(PhoneNumber);
+                                $("#loginButton").click();
+                            }
+                        }
+
                         if(response === "log in to normal account"){
                             window.location.href = '/normalLogin?username=' + encodeURIComponent(formData.username) + '&isAdmin=false&password=' + encodeURIComponent(formData.password);
                         }else if(response === "log in to admin account"){

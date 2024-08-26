@@ -30,7 +30,7 @@
                     password: ini_p
                 };
 
-                apiUrl = "api/setPassword?username=${username}&password="+encodeURIComponent(ini_p);
+                let apiUrl = "api/setPassword?nameOrPhone=${username}&password=" + encodeURIComponent(ini_p);
 
                 if(ini_p !== check_p){
                     alert("Please enter the same password twice.");

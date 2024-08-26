@@ -10,9 +10,9 @@ public interface LoginMapper {
 
     void RegisterNewUser(String phoneNum, String username, String password);
 
-    String getPassword(String username);
+    ArrayList<String> getPassword(String username);
 
-    String getUsername(String str);
+    String getUsername(String str); //str could be username or phone number
 
     Boolean isAdmin(String username);
 
@@ -20,7 +20,9 @@ public interface LoginMapper {
 
     ArrayList<User> getAll();
 
-    void setPassword(String phoneNum, String password);
+    void setPassword(String nameOrPhone, String password);
 
     void deleteUser(String phoneNum);
+
+    void updateUser(String phoneNum, String username, String password, Boolean isAdmin);
 }

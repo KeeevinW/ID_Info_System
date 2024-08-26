@@ -36,12 +36,16 @@ public class apiController {
         String password = user.getPassword();
         String username = user.getUsername(); //not necessarily the username, could be the phone number
 
-        if(loginService.LoginToAccount(username, password)){ // username and password are correct
+        String result = loginService.LoginToAccount(username, password);
+
+        if(result.equals("Successfully logged in")){ // username and password are correct
             if(loginService.isAdmin(username)){ //check if the User is an admin
                 return new ResponseEntity<>("log in to admin account", HttpStatus.OK);
             }else{
                 return new ResponseEntity<>("log in to normal account", HttpStatus.OK);
             }
+        }else if(result.equals("There are more than one password")){
+            return new ResponseEntity<>("There are more than one password", HttpStatus.OK);
         }else{
             return new ResponseEntity<>("incorrect username or password", HttpStatus.UNAUTHORIZED);
         }
@@ -53,9 +57,9 @@ public class apiController {
         return new ResponseEntity<>(loginService.getUsername(name), HttpStatus.OK);
     }
 
-    @GetMapping("/getInfo/{username}")
-    public ResponseEntity<Map<String, String>> getInfoByName(@PathVariable String username){
-        return new ResponseEntity<>(loginService.getInfoByName(username), HttpStatus.OK);
+    @GetMapping("/getInfo/{nameOrPhoneNum}")
+    public ResponseEntity<Map<String, String>> getInfoByName(@PathVariable String nameOrPhoneNum){
+        return new ResponseEntity<>(loginService.getInfoByName(nameOrPhoneNum), HttpStatus.OK);
     }
 
     @PutMapping("/makeAdmin")
@@ -81,8 +85,8 @@ public class apiController {
     }
 
     @PutMapping("/setPassword")
-    public ResponseEntity<String> setPassword(@RequestParam String username, @RequestParam String password){
-        loginService.setPassword(username, password);
+    public ResponseEntity<String> setPassword(@RequestParam String nameOrPhone, @RequestParam String password){
+        loginService.setPassword(nameOrPhone, password);
         return new ResponseEntity<>("password set", HttpStatus.OK);
     }
 
@@ -90,5 +94,11 @@ public class apiController {
     public ResponseEntity<String> deleteUser(@RequestParam String phoneNum){
         loginService.deleteUser(phoneNum);
         return new ResponseEntity<>("User deleted", HttpStatus.OK);
+    }
+
+    @PutMapping("/updateUser")
+    public ResponseEntity<String> updateUser(@RequestParam String phoneNum, @RequestParam String username, @RequestParam String password, @RequestParam String ID, @RequestParam Boolean isAdmin){
+        String result = loginService.updateUser(phoneNum, username, password, ID, isAdmin);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

@@ -46,14 +46,24 @@ public class loginService {
         return "Register Successfully";
     }
 
-    public Boolean LoginToAccount(String username, String password){
-        String correct_password = loginMapper.getPassword(username);
+    public String LoginToAccount(String username, String password){
+
+        ArrayList<String> allPassword = loginMapper.getPassword(username);
+        if(allPassword.size()!=1){
+            return "There are more than one password";
+        }
+
+        String correct_password = allPassword.get(0);
         try {
             correct_password = decrypt(correct_password);
         }catch (NullPointerException e){ //when no such User
-            return false;
+            return "There is no such user";
         }
-        return password.equals(correct_password);
+        if(password.equals(correct_password)){
+            return "Successfully logged in";
+        }else{
+            return "Incorrect password";
+        }
     }
 
     public Boolean isAdmin(String username){
@@ -64,8 +74,8 @@ public class loginService {
         return loginMapper.getUsername(usernameOrPhoneNum);
     }
 
-    public Map<String, String> getInfoByName(String username){
-        String apiUrl = "http://localhost:8080/api/getInfo/"+username;
+    public Map<String, String> getInfoByName(String nameOrPhoneNum){
+        String apiUrl = "http://localhost:8080/api/getInfo/"+nameOrPhoneNum;
         return apiService.getInfoByName(apiUrl);
     }
 
@@ -92,9 +102,9 @@ public class loginService {
         loginMapper.setPassword(phoneNum, password);
     }
 
-    public void setPassword(String username, String password){
+    public void setPassword(String nameOrPhone, String password){
         password = encrypt(password);
-        loginMapper.setPassword(username, password);
+        loginMapper.setPassword(nameOrPhone, password);
     }
 
     public String deleteUser(String phoneNum){
@@ -106,6 +116,19 @@ public class loginService {
             loginMapper.deleteUser(phoneNum);
         }
         return result;
+    }
+
+    public String updateUser(String phoneNum, String username, String password, String ID, Boolean isAdmin){
+        String apiUrl = "http://localhost:8080/api/updateUser?username=" + username + "&phoneNum=" + phoneNum + "&ID=" + ID;
+        String result = apiService.updateUser(apiUrl);
+
+        password = encrypt(password);
+        if(result.equals("User updated")){
+            loginMapper.updateUser(phoneNum, username, password, isAdmin);
+            return "User updated";
+        }else{
+            return result;
+        }
     }
 
     //Encrypt the text (id)
@@ -120,7 +143,6 @@ public class loginService {
         }catch (Exception e){
             throw new RuntimeException("Error encrypting data", e);
         }
-
     }
 
     //decrypt the text (id)
