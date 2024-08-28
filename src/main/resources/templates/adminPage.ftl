@@ -9,12 +9,17 @@
             height: auto; /* Adjust the height as needed */
             margin: 50px auto; /* Center the table horizontally and add space above */
             border-collapse: collapse; /* Ensure borders are collapsed for a cleaner look */
+            border-radius: 10px;
         }
 
         th, td {
             padding: 15px; /* Increase padding to make cells larger */
             text-align: center; /* Center text within cells */
             border: 1px solid #ddd; /* Add borders around cells */
+        }
+
+        td {
+            background-color: white;
         }
 
         th {
@@ -63,9 +68,9 @@
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<body style="text-align: center">
-    <h1>Welcome, admin ${adminName}!</h1>
-    <br><br>
+<body style="text-align: center; background-color: antiquewhite">
+    <h1 style="margin-top: 3%">Welcome, admin ${adminName}!</h1>
+    <br>
 
     <table>
         <tr class="tableHeader">
@@ -120,6 +125,7 @@
                 return;
             }else if(isAdmin){
                 alert("You can't delete another admin!");
+                return;
             }
 
             let confirmDelete = confirm('Are you sure you want to delete the user with username '+ username + ' and phone number '+PhoneNum+'?');
@@ -175,6 +181,7 @@
 
             if(!isValidID(ID)){
                 alert("Invalid ID number");
+                location.reload();
                 return;
             }
 

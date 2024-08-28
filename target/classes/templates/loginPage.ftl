@@ -6,8 +6,18 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
+        .container {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 13%;
+            width: 30%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            background-color: whitesmoke;
+            border-radius: 5%;
+        }
+
         .custom-button {
-            background-color: #007BFF; /* Primary blue color */
+            background-color: darkslategray;
             color: white; /* White text */
             border: none; /* Remove border */
             padding: 10px 20px; /* Add some padding */
@@ -19,37 +29,56 @@
         }
 
         .custom-button:hover {
-            background-color: #0056b3; /* Darker blue on hover */
+            background-color: lightslategray;
             transform: translateY(-2px); /* Slight lift on hover */
         }
 
         .custom-button:active {
-            background-color: #004494; /* Even darker blue when clicked */
             transform: translateY(0); /* Reset lift when clicked */
+        }
+
+        input[type=text], input[type=password] {
+            width: 80%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            border-radius: 10px;
+        }
+
+        label {
+            font-weight: bold;
         }
     </style>
 
 </head>
-<body style="text-align:center">
-    <h1 style="margin-top: 15%">LOG IN</h1>
-    <br><br>
-
-
-    <#if logoutSuccess?? && logoutSuccess>
-        <script>
-            alert("You have successfully logged out.");
-        </script>
-    </#if>
-
-    <form action="/login" method="post" id="loginForm">
-        <label for="username">Username or Phone Number: </label>
-        <input name="username" id="username" required>
+<body style="text-align:center; background-color: antiquewhite">
+    <div class="container">
         <br><br>
-        <label for="password">Password: </label>
-        <input type="password" name="password" id="password" required>
-        <br><br><br><br>
-        <input class="custom-button" id="loginButton" type="submit" value="Click to log in">
-    </form>
+        <h1>LOG IN</h1>
+        <br>
+
+        <#if logoutSuccess?? && logoutSuccess==true>
+            <script>
+                alert("You have successfully logged out.");
+            </script>
+        </#if>
+
+        <form action="/login" method="post" id="loginForm">
+            <label for="username">Username/Phone Number</label><br>
+            <input type="text" name="username" id="username" placeholder="Enter your username or phone number" required>
+            <br><br>
+            <label for="password">Password</label><br>
+            <input type="password" name="password" id="password" placeholder="The default password is 12345678" required>
+            <br><br>
+            <input class="custom-button" id="loginButton" type="submit" value="Click to log in">
+        </form>
+
+        <br><br>
+        <button class="custom-button" onclick="window.location.href='/newuser';">Register an account</button>
+        <br><br>
+    </div>
 
     <script>
         $(document).ready(function () {
@@ -77,9 +106,7 @@
                                 $("#username").val(PhoneNumber);
                                 $("#loginButton").click();
                             }
-                        }
-
-                        if(response === "log in to normal account"){
+                        }else if(response === "log in to normal account"){
                             window.location.href = '/normalLogin?username=' + encodeURIComponent(formData.username) + '&isAdmin=false&password=' + encodeURIComponent(formData.password);
                         }else if(response === "log in to admin account"){
                             window.location.href = '/adminLogin?username=' + encodeURIComponent(formData.username);
@@ -100,9 +127,7 @@
         })
     </script>
 
-    <br><br>
 
-    <button class="custom-button" onclick="window.location.href='/newuser';">Register an account</button>
 
 
 </body>

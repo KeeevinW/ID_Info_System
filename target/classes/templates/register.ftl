@@ -6,8 +6,18 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
+        .container {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 13%;
+            width: 30%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            background-color: whitesmoke;
+            border-radius: 5%;
+        }
+
         .custom-button {
-            background-color: #007BFF; /* Primary blue color */
+            background-color: darkslategray;
             color: white; /* White text */
             border: none; /* Remove border */
             padding: 10px 20px; /* Add some padding */
@@ -19,33 +29,50 @@
         }
 
         .custom-button:hover {
-            background-color: #0056b3; /* Darker blue on hover */
+            background-color: lightslategray;
             transform: translateY(-2px); /* Slight lift on hover */
         }
 
         .custom-button:active {
-            background-color: #004494; /* Even darker blue when clicked */
             transform: translateY(0); /* Reset lift when clicked */
+        }
+
+        input[type="text"], input[type="tel"]{
+            width: 80%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            border-radius: 10px;
+        }
+        label {
+            font-weight: bold;
         }
     </style>
 
 </head>
-<body style="text-align: center">
+<body style="text-align: center; background-color: antiquewhite">
 
-    <h1>CREATE AN ACCOUNT</h1>
-    <br><br>
-    <form action="/api/newuser" id="newuser_info" method="post">
-        <label for="username">Please enter your username: </label>
-        <input name="username" id="username" required maxlength="10">
+    <div class="container">
         <br><br>
-        <label for="id">Please enter your ID: </label>
-        <input name="id" id="id" type="text" required maxlength="18">
+        <h1>CREATE AN ACCOUNT</h1>
+        <form action="/api/newuser" id="newuser_info" method="post">
+            <label for="username">Please enter your username: </label>
+            <input name="username" id="username" type="text" required maxlength="10">
+            <br><br>
+            <label for="id">Please enter your ID: </label>
+            <input name="id" id="id" type="text" required maxlength="18">
+            <br><br>
+            <label for="phoneNum">Please enter your phone number: </label>
+            <input name="phoneNum" id="phoneNum" type="tel" required maxlength="11">
+            <br><br>
+            <input class="custom-button" type="submit" value="Click to register">
+        </form>
+        <br>
+        <button class="custom-button" onclick="window.location.href='/'">Back to Main Page</button>
         <br><br>
-        <label for="phoneNum">Please enter your phone number: </label>
-        <input name="phoneNum" id="phoneNum" type="tel" required maxlength="11">
-        <br><br>
-        <input type="submit" value="Click to register">
-    </form>
+    </div>
 
     <script>
         $(document).ready(function(){
@@ -117,7 +144,6 @@
 
     </script>
 
-    <br><br>
-    <button class="custom-button" onclick="window.location.href='/'">Back to Main Page</button>
+
 </body>
 </html>

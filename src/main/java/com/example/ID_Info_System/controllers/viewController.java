@@ -27,7 +27,7 @@ public class viewController {
 
     @RequestMapping("/")
     public String showLogin(){
-        return "index";
+        return "loginPage";
     }
 
     @RequestMapping("/newuser")
@@ -80,7 +80,8 @@ public class viewController {
 
     @GetMapping("/adminLogin")
     public String handleAdminLogin(@RequestParam String username, HttpSession session) {
-        getRealName(username, session);
+        String result = getRealName(username, session);
+        session.setAttribute("username", result);
         return "redirect:/adminPage";
     }
 
