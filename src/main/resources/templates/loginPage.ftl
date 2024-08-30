@@ -29,7 +29,6 @@
         }
 
         .custom-button:hover {
-            background-color: lightslategray;
             transform: translateY(-2px); /* Slight lift on hover */
         }
 
@@ -50,6 +49,15 @@
         label {
             font-weight: bold;
         }
+
+        .register_text{
+            color: darkgoldenrod;
+        }
+
+        .register_text:hover{
+            color: maroon;
+            text-decoration-line: underline;
+        }
     </style>
 
 </head>
@@ -67,16 +75,15 @@
 
         <form action="/login" method="post" id="loginForm">
             <label for="username">Username/Phone Number</label><br>
-            <input type="text" name="username" id="username" placeholder="Enter your username or phone number" required>
+            <input type="text" name="username" id="username" placeholder="Enter your username or phone number" required maxlength="11">
             <br><br>
             <label for="password">Password</label><br>
-            <input type="password" name="password" id="password" placeholder="The default password is 12345678" required>
+            <input type="password" name="password" id="password" placeholder="The default password is 12345678" required maxlength="20">
             <br><br>
             <input class="custom-button" id="loginButton" type="submit" value="Click to log in">
         </form>
-
-        <br><br>
-        <button class="custom-button" onclick="window.location.href='/newuser';">Register an account</button>
+        <br>
+        <div class="register_text" onclick="window.location.href='/newuser';">Register an account</div>
         <br><br>
     </div>
 

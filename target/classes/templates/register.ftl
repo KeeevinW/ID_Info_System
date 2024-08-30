@@ -49,6 +49,15 @@
         label {
             font-weight: bold;
         }
+
+        .return_text{
+            color: darkgoldenrod;
+        }
+
+        .return_text:hover{
+            color: maroon;
+            text-decoration-line: underline;
+        }
     </style>
 
 </head>
@@ -58,19 +67,19 @@
         <br><br>
         <h1>CREATE AN ACCOUNT</h1>
         <form action="/api/newuser" id="newuser_info" method="post">
-            <label for="username">Please enter your username: </label>
-            <input name="username" id="username" type="text" required maxlength="10">
+            <label for="username">Please enter your username</label>
+            <input name="username" id="username" type="text" required maxlength="10" placeholder="The maximum length of a username is 10 letters">
             <br><br>
-            <label for="id">Please enter your ID: </label>
-            <input name="id" id="id" type="text" required maxlength="18">
+            <label for="id">Please enter your ID</label>
+            <input name="id" id="id" type="text" required maxlength="18" placeholder="Please enter a valid Chinese ID number">
             <br><br>
-            <label for="phoneNum">Please enter your phone number: </label>
-            <input name="phoneNum" id="phoneNum" type="tel" required maxlength="11">
+            <label for="phoneNum">Please enter your phone number</label>
+            <input name="phoneNum" id="phoneNum" type="tel" required maxlength="11" placeholder="Please enter a valid Chinese phone number">
             <br><br>
             <input class="custom-button" type="submit" value="Click to register">
         </form>
         <br>
-        <button class="custom-button" onclick="window.location.href='/'">Back to Main Page</button>
+        <div class="return_text" onclick="window.location.href='/'">Back to login page</div>
         <br><br>
     </div>
 

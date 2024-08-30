@@ -31,7 +31,7 @@
         }
 
         .custom-button {
-            background-color: #007BFF; /* Primary blue color */
+            background-color: darkslategray;
             color: white; /* White text */
             border: none; /* Remove border */
             padding: 10px 20px; /* Add some padding */
@@ -43,7 +43,6 @@
         }
 
         .custom-button:hover {
-            background-color: #0056b3; /* Darker blue on hover */
             transform: translateY(-2px); /* Slight lift on hover */
         }
 
